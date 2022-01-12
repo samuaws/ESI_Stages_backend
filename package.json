@@ -1,0 +1,26 @@
+{
+  "name": "esi_stages_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/samuaws/ESI_Stages_backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/samuaws/ESI_Stages_backend/issues"
+  },
+  "homepage": "https://github.com/samuaws/ESI_Stages_backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.1.6",
+    "nodemon": "^2.0.15"
+  }
+}
