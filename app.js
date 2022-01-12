@@ -8,7 +8,7 @@ const express = require("express"),
     port=3000;
 
     app.use(express.json());
-    app.get("/",(req,res)=>{
+    app.get("/lydia",(req,res)=>{
         res.send("just cheking that this is working");
     })
      app.use("/",authRouter);
