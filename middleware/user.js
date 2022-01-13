@@ -1,5 +1,5 @@
 const User = require("../models/user");
-//Saved = require("../models/savedQuotes");
+//Saved = require("../models/savedStages ");
 module.exports = {
     createUser: async (req, res) => {
         const { email, username, first_Name, last_Name, password } = req.body;
@@ -13,7 +13,7 @@ module.exports = {
             user.save();
            // saving.save();
           
-            console.log(user.savedQuotes);
+          //  console.log(user.savedQuotes);
 
             res.status(201).json(user.insertToken());
         } catch (e) {

@@ -4,6 +4,7 @@ const express = require("express"),
     user = require("./models/user"),
     userRouter = require("./routes/user"),
      authRouter = require("./routes/auth"),
+     stageRouter = require("./routes/stage"),
     
     port=3000;
 
@@ -13,7 +14,8 @@ const express = require("express"),
     })
      app.use("/",authRouter);
      app.use("/users", userRouter);
-    mongoose.set("debug", true); // in devolpment process
+     app.use("/stages", stageRouter);
+     mongoose.set("debug", true); // in devolpment process
     mongoose
     .connect(
         "mongodb+srv://samuaws:yM2tSpmnnsdH8aT@stagedb.vamrg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",        {

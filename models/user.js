@@ -28,11 +28,11 @@ const mongoose = require("mongoose"),
             type: String,
             required: true,
         },
-        savedStages : { 
-            type: mongoose.Types.ObjectId, 
-            ref: "savedQuotes" ,
+        //  savedStages : { 
+        //     type: mongoose.Types.ObjectId, 
+        //     ref: "savedStages" ,
            
-        },
+        // },
 
     });
     
