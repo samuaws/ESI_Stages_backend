@@ -5,6 +5,7 @@ const express = require("express"),
     userRouter = require("./routes/user"),
      authRouter = require("./routes/auth"),
      stageRouter = require("./routes/stage"),
+     stageRouter = require("./routes/encadreur"),
     
     port=3000;
 
@@ -15,6 +16,7 @@ const express = require("express"),
      app.use("/",authRouter);
      app.use("/users", userRouter);
      app.use("/stages", stageRouter);
+     app.use("/encadreur", encadreurRouter);
      mongoose.set("debug", true); // in devolpment process
     mongoose
     .connect(
