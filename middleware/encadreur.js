@@ -5,15 +5,20 @@ module.exports = {
     createEncadreur : async (req, res) => {
         const {first_Name ,last_Name,adrs ,tlf,entreprise} = req.body;
         try {
-            let ent = await Entreprise.findone({name : new RegExp(entreprise,"i")});
-            let encadreur = await Encadreur.create({first_Name ,last_Name,adrs ,tlf,ent});
-            ent.encadreur.push(en);
+            let ent = await Entreprise.findOne({name : new RegExp(entreprise,"i")});
+           if(ent == null)
+           {
+               throw Error("entreprise does not exist");
+           }
+            let encadreur = await Encadreur.create({first_Name ,last_Name,adrs ,tlf,entreprise : ent});
+            ent.encadreurs.push(encadreur);
             encadreur.save();
             ent.save();
-            res.status(201).json(Encadreur);
+            res.status(201).json(encadreur);
         } catch (e) {
             
             res.json({ error: e.message });
+            console.log(e);
         }
     },
     showEncadreur : async (req,res) => {

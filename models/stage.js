@@ -16,14 +16,13 @@ stageSchema = new mongoose.Schema({
              ref: "group" ,} ,
     promoteur : {
         type: mongoose.Types.ObjectId, 
-             ref: "probmoteur" ,} ,
+             ref: "promoteur" ,} ,
     
     
     Available :{
         type : Boolean,
         default : true,
     }
-    
-
+   
 });
 module.exports = mongoose.model("Stage", stageSchema);

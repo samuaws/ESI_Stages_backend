@@ -16,7 +16,7 @@ domaine :{
         type: String,
         enum : ['AI','SECURITE','MIV','RESEAU'],
         },
- Available :{
+Available :{
          type : Boolean,
         default : true,
 }

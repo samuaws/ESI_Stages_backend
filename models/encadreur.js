@@ -11,8 +11,9 @@ encadreurSchema = new mongoose.Schema({
     },
     adrs: String ,
     tlf: String,
-    entreprise: { type: mongoose.Types.ObjectId, 
-        ref: "entreprise" ,}
+    entreprise: {       
+        type: mongoose.Types.ObjectId, 
+                  ref: "entreprise" ,}
     },
   )
   module.exports = mongoose.model("Encadreur", encadreurSchema);
