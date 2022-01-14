@@ -3,9 +3,12 @@ const express = require("express"),
     mongoose = require("mongoose"),
     user = require("./models/user"),
     userRouter = require("./routes/user"),
-     authRouter = require("./routes/auth"),
-     stageRouter = require("./routes/stage"),
-     stageRouter = require("./routes/encadreur"),
+    authRouter = require("./routes/auth"),
+    stageRouter = require("./routes/stage"),
+    encadreurRouter = require("./routes/encadreur"),
+    promoteurRouter = require("./routes/promoteur"),
+    entrepriseRouter = require("./routes/entreprise"),
+    groupRouter = require("./routes/group"),
     
     port=3000;
 
@@ -15,8 +18,11 @@ const express = require("express"),
     })
      app.use("/",authRouter);
      app.use("/users", userRouter);
-     app.use("/stages", stageRouter);
+     app.use("/stage", stageRouter);
      app.use("/encadreur", encadreurRouter);
+    app.use("/promoteur", promoteurRouter);
+    app.use("/entreprise", entrepriseRouter);
+    app.use("/group", groupRouter);
      mongoose.set("debug", true); // in devolpment process
     mongoose
     .connect(

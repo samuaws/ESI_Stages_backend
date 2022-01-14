@@ -9,8 +9,8 @@ encadreurSchema = new mongoose.Schema({
         required: true,
         type: String,
     },
-    adrs: string ,
-    tlf: string,
+    adrs: String ,
+    tlf: String,
     entreprise: { type: mongoose.Types.ObjectId, 
         ref: "entreprise" ,}
     },

@@ -1,32 +1,57 @@
 const Encadreur = require("../models/encadreur");
-
+const Entreprise = require("../models/entreprise");
 module.exports = {
 
     createEncadreur : async (req, res) => {
         const {first_Name ,last_Name,adrs ,tlf,entreprise} = req.body;
         try {
-           
-            let Encadreur = await Encadreur.create({first_Name ,last_Name,adrs ,tlf,entreprise});
-            Encadreur.save();
+            let ent = await Entreprise.findone({name : new RegExp(entreprise,"i")});
+            let encadreur = await Encadreur.create({first_Name ,last_Name,adrs ,tlf,ent});
+            ent.encadreur.push(en);
+            encadreur.save();
+            ent.save();
             res.status(201).json(Encadreur);
         } catch (e) {
+            
             res.json({ error: e.message });
         }
     },
-    //show jsp
+    showEncadreur : async (req,res) => {
+        id = req.params.id ;
+        try{
+            const en =await Encadreur.findById(id);
+            res.status(201).json(en);
+        }
+        catch(e)
+        {
+            res.json({ error: e.message });
+        }
+    },
+
+    showListEncadreur: async (req,res) => {
+        try{
+            const en =await Encadreur.find();
+            res.status(201).json(en);
+        }
+        catch(e)
+        {
+            res.json({ error: e.message });
+        }
+    },
     updateEncadreur: async (req, res) => {
         const { first_Name, last_Name, tlf , entreprise } = req.body,
+        ent =await Entreprise.findOne({name : new RegExp(entreprise,"i")});
             id = req.params.id;
         try {
             if (id.toString() !== req.Encadreur._id.toString())
                 throw new Error("You aren't allowed to edit other Encadreur profiles.");
-            const u = await Encadreur.findById(id);
-            u.first_Name = first_Name ? first_Name : u.first_Name;//ida first_name existe donc nhatoha sinon nlkhelo l9dim ?
-            u.last_Name = last_Name ? last_Name : u.last_Name;
-            u.tlf = tlf ? tlf : u.tlf;
-            u.entreprise = entreprise ? entreprise : u.entreprise;
-            await u.save();
-            res.status(201).send(u);
+            const en = await Encadreur.findById(id);
+            en.first_Name = first_Name ? first_Name : en.first_Name;
+            en.last_Name = last_Name ? last_Name : en.last_Name;
+            en.tlf = tlf ? tlf : en.tlf;
+            en.entreprise = ent ? ent : en.entreprise;
+            await en.save();
+            res.status(201).send(en);
         } catch (e) {
             res.json({ error: e.message });
         }
@@ -34,13 +59,8 @@ module.exports = {
     deleteEncadreur: async (req, res) => {
         try {
             const id = req.params.id,
-                u = await Encadreur.findById(id);
-                console.log(u);
-            if (u._id.toString() !== req.Encadreur._id.toString()){
-                
-                throw Error("You aren't allowed to delete other people accounts.");
-            }
-            await u.remove();
+                en = await Encadreur.findById(id);
+            await en.remove();
             res.json({ deleted: "successfully" });
         } catch (e) {
             res.json({ error: e.message });
