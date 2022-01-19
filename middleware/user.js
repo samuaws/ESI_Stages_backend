@@ -21,6 +21,7 @@ module.exports = {
         }
     },
     logUser: async (req, res) => {
+        console.log(req.body);
         const { username, password } = req.body;
         try {
             const user = await User.findOne({ username });
@@ -28,6 +29,7 @@ module.exports = {
             if (!(await user.comparePasswords(password)))
                 throw Error("Wrong Password,Try again !!");
             res.status(201).json(user.insertToken());
+           console.log("user loged in");
         } catch (e) {
             res.json({ error: e.message });
         }

@@ -9,10 +9,15 @@ const express = require("express"),
     promoteurRouter = require("./routes/promoteur"),
     entrepriseRouter = require("./routes/entreprise"),
     groupRouter = require("./routes/group"),
-    
+    cors =require("cors"),
     port=3000;
 
     app.use(express.json());
+    app.use(
+        cors({
+            origin : "*"
+        })
+    )
     app.get("/lydia",(req,res)=>{
         res.send("just cheking that this is working");
     })
