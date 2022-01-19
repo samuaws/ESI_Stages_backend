@@ -1,4 +1,5 @@
-const User = require("../models/user");
+const User = require("../models/user"),
+jwt = require("jsonwebtoken");
 //Saved = require("../models/savedStages ");
 module.exports = {
     createUser: async (req, res) => {
@@ -27,11 +28,12 @@ module.exports = {
             const user = await User.findOne({ username });
             if (!user) throw new Error("We didn't find any user with this username : " + username);
             if (!(await user.comparePasswords(password)))
-                throw Error("Wrong Password,Try again !!");
+                 throw Error("Wrong Password,Try again !!");
+               
             res.status(201).json(user.insertToken());
            console.log("user loged in");
         } catch (e) {
-            res.json({ error: e.message });
+            res.status(403).json({ error: e.message });
         }
     },
     showUser: async (req, res) => {
@@ -39,6 +41,14 @@ module.exports = {
         try {
             const user = await User.findById(id).select({ passwords: 0 }).select({"password" : 0,"_id": 0}); //.select( "-passwords" ); gotta add .populate("savedStages") later
             res.json(user);
+        } catch (e) {
+            res.json({ error: e.message });
+        }
+    },
+    showUserByToken : async (req, res) => {
+        
+        try {
+            res.status(201).json(req.user);
         } catch (e) {
             res.json({ error: e.message });
         }
