@@ -16,6 +16,10 @@ domaine :{
         type: String,
         enum : ['AI','SECURITE','MIV','RESEAU'],
         },
+discription: {
+     type: String,
+        },       
+//add an image with default empty image 
 Available :{
          type : Boolean,
         default : true,

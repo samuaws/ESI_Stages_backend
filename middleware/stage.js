@@ -4,12 +4,12 @@ const Encadreur = require("../models/encadreur");
 const Group = require("../models/group");
 module.exports = {
 createStage : async (req, res) => {
-    const { Type,description,dateDeb ,dateFin,encadreur,group,promoteur} = req.body;
+    const { Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur} = req.body;
     try {
        const prom = Promoteur.findOne({name : new RegExp(promoteur,"i")}),
             enc = Encadreur.findOne({name : new RegExp(encadreur,"i")}),
             grp = Group.findOne({name : new RegExp(group,"i")});
-        let stage = await Stage.create({ Type,description,dateDeb ,dateFin,enc,grp,prom});
+        let stage = await Stage.create({ Type,description,dateDeb ,dateFin,annee,enc,grp,prom});
         stage.save();
         res.status(201).json(stage);
     } catch (e) {
@@ -50,7 +50,7 @@ catch(e)
 }
 },
 updateStage: async (req, res) => {
-    const {Type,description,dateDeb ,dateFin,encadreur,group,promoteur} = req.body,
+    const {Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur} = req.body,
         id = req.params.id,
         prom = await Promoteur.findOne({name : new RegExp(promoteur,"i")}),
         enc = await Encadreur.findOne({name : new RegExp(encadreur,"i")}),
@@ -60,6 +60,8 @@ updateStage: async (req, res) => {
         st.Type = Type ? Type : st.Type;
         st.description = description ? description : st.description;
         st.dateDeb = dateDeb ? dateDeb : st.dateDeb;
+        st.dateFin = dateFin ? dateFin : st.dateFin;
+        st.annee = annee ? annee : st.annee;
         st.encadreur = enc ? enc : st.encadreur;
         st.group = grp ? grp : st.group;
         st.promoteur = prom ? prom : st.promoteur;

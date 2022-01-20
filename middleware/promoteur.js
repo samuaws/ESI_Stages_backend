@@ -3,9 +3,9 @@ const Promoteur = require("../models/promoteur");
 module.exports = {
 
     createPromoteur : async (req, res) => {
-        const {first_Name ,last_Name,email ,domaine,Available} = req.body;
+        const {first_Name ,last_Name,email ,domaine,discription,Available} = req.body;
         try {
-            let promoteur = await Promoteur.create({first_Name ,last_Name,email ,domaine,Available});
+            let promoteur = await Promoteur.create({first_Name ,last_Name,email ,domaine,discription,Available});
             promoteur.save();
             res.status(201).json(Promoteur);
         } catch (e) {
@@ -16,6 +16,7 @@ module.exports = {
         id = req.params.id ;
         try{
             const p = await Promoteur.findById(id);
+            console.log(p);
             res.status(201).json(p);
         }
         catch(e)
@@ -45,7 +46,7 @@ module.exports = {
         }
         },
     updatePromoteur: async (req, res) => {
-        const { first_Name ,last_Name,email ,domaine,Available } = req.body,
+        const { first_Name ,last_Name,email ,domaine,discription,Available } = req.body,
             id = req.params.id;
         try {
             if (id.toString() !== req.Promoteur._id.toString())
@@ -55,6 +56,7 @@ module.exports = {
             p.last_Name = last_Name ? last_Name : p.last_Name;
             p.email = email ? email : p.email;
             p.domaine = domaine ? domaine : p.domaine;
+            p.discription = discription ? discription : p.discription;
             p.Available = Available ? Available : p.Available;
             await p.save();
             res.status(201).send(p);
