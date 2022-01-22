@@ -4,6 +4,7 @@ const Encadreur = require("../models/encadreur");
 const Group = require("../models/group");
 module.exports = {
 createStage : async (req, res) => {
+    console.log("yakh rana ndirou  reaq hna");
     const { Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur} = req.body;
     try {
        const prom = Promoteur.findOne({name : new RegExp(promoteur,"i")}),
@@ -29,6 +30,7 @@ showStage : async (req,res) => {
 },
 
 showListStage: async (req,res) => {
+    console.log("TIZIIIIIIIIIIIIIIII");
     try{
         const st = await  Stage.find();
         console.log(st);

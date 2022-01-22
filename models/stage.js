@@ -18,7 +18,7 @@ stageSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId, 
              ref: "promoteur" ,} ,
     annee : Number ,
-    
+    // we should add entreprise 
     Available :{
         type : Boolean,
         default : true,
