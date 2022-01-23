@@ -16,6 +16,7 @@ module.exports = {
     },
     showEntreprise : async (req,res) => {
         id = req.params.id ;
+        console.log(id);
         try{
             const ent = await Entreprise.findById(id);
             res.status(201).json(ent);

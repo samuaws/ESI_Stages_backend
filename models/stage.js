@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 stageSchema = new mongoose.Schema({
+    name : String,
     Type :{
         type: String,
         enum : ['ouvrier','technique',"PFE"],
@@ -10,15 +11,17 @@ stageSchema = new mongoose.Schema({
     dateDeb : Date,
     dateFin : Date,
     Encadreur : {type: mongoose.Types.ObjectId, 
-             ref: "encadreur" ,} ,
+             ref: "Encadreur" ,} ,
     group : {
         type: mongoose.Types.ObjectId, 
-             ref: "group" ,} ,
+             ref: "Group" ,} ,
     promoteur : {
         type: mongoose.Types.ObjectId, 
-             ref: "promoteur" ,} ,
+             ref: "Promoteur" ,} ,
     annee : Number ,
-    // we should add entreprise 
+    entreprise : {
+        type: mongoose.Types.ObjectId, 
+             ref: "Entreprise" ,} ,
     Available :{
         type : Boolean,
         default : true,

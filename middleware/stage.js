@@ -2,25 +2,29 @@ const Stage = require("../models/stage");
 const Promoteur = require("../models/promoteur");
 const Encadreur = require("../models/encadreur");
 const Group = require("../models/group");
+const Entreprise = require("../models/entreprise");
 module.exports = {
 createStage : async (req, res) => {
     console.log("yakh rana ndirou  reaq hna");
-    const { Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur} = req.body;
+    const {name,Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur,entreprise} = req.body;
     try {
-       const prom = Promoteur.findOne({name : new RegExp(promoteur,"i")}),
-            enc = Encadreur.findOne({name : new RegExp(encadreur,"i")}),
-            grp = Group.findOne({name : new RegExp(group,"i")});
-        let stage = await Stage.create({ Type,description,dateDeb ,dateFin,annee,enc,grp,prom});
-        stage.save();
+       const prom = await Promoteur.findOne({last_Name : new RegExp(promoteur,"i")}),
+            enc = await Encadreur.findOne({last_Name : new RegExp(encadreur,"i")}),
+            grp = await Group.findOne({name : new RegExp(group,"i")});
+            ent = await Entreprise.findOne({name : new RegExp(entreprise,"i")});
+        let stage = await Stage.create({name,Type,description,dateDeb ,dateFin,annee,Encadreur:enc,group:grp,promoteur:prom,entreprise:ent});
+        stage.save(); 
         res.status(201).json(stage);
     } catch (e) {
         res.json({ error: e.message });
     }
 },
 showStage : async (req,res) => {
+    
     id = req.params.id ;
+    console.log(id);
     try{
-        const st = await Stage.findById(id);
+        const st = await Stage.findById(id).populate("entreprise").populate("promoteur").populate("Encadreur");
         res.status(201).json(st);
     }
     catch(e)
@@ -32,8 +36,7 @@ showStage : async (req,res) => {
 showListStage: async (req,res) => {
     console.log("TIZIIIIIIIIIIIIIIII");
     try{
-        const st = await  Stage.find();
-        console.log(st);
+        const st = await  Stage.find().populate("entreprise");
         res.status(201).json(st);
     }
     catch(e)
@@ -52,21 +55,26 @@ catch(e)
 }
 },
 updateStage: async (req, res) => {
-    const {Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur} = req.body,
+    const {name,Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur,entreprise} = req.body,
         id = req.params.id,
-        prom = await Promoteur.findOne({name : new RegExp(promoteur,"i")}),
-        enc = await Encadreur.findOne({name : new RegExp(encadreur,"i")}),
+        prom = await Promoteur.findOne({last_Name : new RegExp(promoteur,"i")}),   
+        enc = await Encadreur.findOne({last_Name : new RegExp(encadreur,"i")}),
         grp = await Group.findOne({name : new RegExp(group,"i")});
+        ent = await Entreprise.findOne({name : new RegExp(entreprise,"i")});
+        console.log("this is "+ enc);
+        console.log(encadreur);
     try {
         const st = await Stage.findById(id);
+        st.name = name ? name : st.name;
         st.Type = Type ? Type : st.Type;
         st.description = description ? description : st.description;
         st.dateDeb = dateDeb ? dateDeb : st.dateDeb;
         st.dateFin = dateFin ? dateFin : st.dateFin;
         st.annee = annee ? annee : st.annee;
-        st.encadreur = enc ? enc : st.encadreur;
+        st.Encadreur = enc ? enc : st.Encadreur;
         st.group = grp ? grp : st.group;
         st.promoteur = prom ? prom : st.promoteur;
+        st.entreprise = ent ? ent : st.entreprise;
         await st.save();
         res.status(201).send(st);
     } catch (e) {
@@ -74,6 +82,7 @@ updateStage: async (req, res) => {
     }
 },
 deleteStage: async (req, res) => {
+    console.log("hellooooooo");
     try {
         const id = req.params.id,
          st = await Stage.findById(id);
