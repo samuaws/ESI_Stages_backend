@@ -1,8 +1,11 @@
 const mongoose = require("mongoose");
-const { stringify } = require("nodemon/lib/utils");
 
 groupSchema = new mongoose.Schema({
-name : String,
+name : {
+        required: true,
+        type: String,
+        unique: true,
+        },
 etudiants : [
     {
         type: mongoose.Types.ObjectId,

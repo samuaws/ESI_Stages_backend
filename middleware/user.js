@@ -6,7 +6,7 @@ module.exports = {
         const { email, username, first_Name, last_Name, password } = req.body;
         try {
            
-            let user = await User.create({ email, username, first_Name, last_Name, password});
+            let user = await User.create({ email, username, first_Name, last_Name,matricule, password});
             // saving = await Saved.create({user});
             // user = await User.findById(user.id);
            
@@ -54,14 +54,16 @@ module.exports = {
         }
     },
     updateUser: async (req, res) => {
-        const { first_Name, last_Name, password } = req.body,
+        const { email,first_Name, last_Name,matricule, password } = req.body,
             id = req.params.id;
         try {
             if (id.toString() !== req.user._id.toString())
                 throw new Error("You aren't allowed to edit other users profiles.");
             const u = await User.findById(id);
+            u.email = email ? email : u.email;
             u.first_Name = first_Name ? first_Name : u.first_Name;
             u.last_Name = last_Name ? last_Name : u.last_Name;
+            u.matricule = matricule ? matricule : u.matricule;
             u.password = password ? password : u.password;
             await u.save();
             res.status(201).send(u);

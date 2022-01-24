@@ -20,6 +20,10 @@ const mongoose = require("mongoose"),
             required: true,
             type: String,
         },
+        matricule: {
+            required: true,
+            type: Number,
+        },
         is_Admin: {
             type: Boolean,
             default: false,

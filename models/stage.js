@@ -1,10 +1,15 @@
 const mongoose = require("mongoose");
 
 stageSchema = new mongoose.Schema({
-    name : String,
+    name :{
+        required: true,
+        type: String,
+        unique: true,
+                },
     Type :{
         type: String,
         enum : ['ouvrier','technique',"PFE"],
+        
     },
 
     description : String ,

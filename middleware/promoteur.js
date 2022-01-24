@@ -47,11 +47,11 @@ module.exports = {
         },
     updatePromoteur: async (req, res) => {
         const { first_Name ,last_Name,email ,domaine,discription,Available } = req.body,
-            id = req.params.id;
+        id = req.params.id;
+        console.log(id);
         try {
-            if (id.toString() !== req.Promoteur._id.toString())
-                throw new Error("You aren't allowed to edit other Promoteur profiles.");
             const p = await Promoteur.findById(id);
+            console.log(p);
             p.first_Name = first_Name ? first_Name : p.first_Name;
             p.last_Name = last_Name ? last_Name : p.last_Name;
             p.email = email ? email : p.email;
