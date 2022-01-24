@@ -48,8 +48,6 @@ module.exports = {
         ent =await Entreprise.findOne({name : new RegExp(entreprise,"i")});
             id = req.params.id;
         try {
-            if (id.toString() !== req.Encadreur._id.toString())
-                throw new Error("You aren't allowed to edit other Encadreur profiles.");
             const en = await Encadreur.findById(id);
             en.first_Name = first_Name ? first_Name : en.first_Name;
             en.last_Name = last_Name ? last_Name : en.last_Name;

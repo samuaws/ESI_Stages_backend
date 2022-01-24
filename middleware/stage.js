@@ -46,7 +46,7 @@ showListStage: async (req,res) => {
 },
 showAvailableStage : async (req, res) => {
 try {
-    let st =  Stage.find({available : true});
+    let st = await Stage.find({Available : true}).populate("entreprise");
     res.status(201).json(st);
 }
 catch(e)

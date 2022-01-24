@@ -37,7 +37,7 @@ module.exports = {
     },
     showAvailablePromoteur : async (req, res) => {
         try {
-            let p = await Promoteur.find({available : true});
+            let p = await Promoteur.find({Available : true});
             res.status(201).json(p)
         }
         catch(e)
