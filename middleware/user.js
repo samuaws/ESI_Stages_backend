@@ -3,10 +3,10 @@ jwt = require("jsonwebtoken");
 //Saved = require("../models/savedStages ");
 module.exports = {
     createUser: async (req, res) => {
-        const { email, username, first_Name, last_Name, password } = req.body;
+        const { email, username, first_Name,matricule, last_Name, password } = req.body;
         try {
-           
-            let user = await User.create({ email, username, first_Name, last_Name,matricule, password});
+            console.log('user');
+            let user = await User.create({ email, username, first_Name,matricule, last_Name, password});
             // saving = await Saved.create({user});
             // user = await User.findById(user.id);
            
@@ -40,6 +40,16 @@ module.exports = {
         const id = req.params.id;
         try {
             const user = await User.findById(id).select({ passwords: 0 }).select({"password" : 0,"_id": 0}); //.select( "-passwords" ); gotta add .populate("savedStages") later
+            res.json(user);
+        } catch (e) {
+            res.json({ error: e.message });
+        }
+    },
+    showUserFromMaricule : async (req, res) => {
+        const { mat } = req.body;
+        console.log(req.body);
+        try {
+            const user = await User.findOne({matricule : mat}).select({ passwords: 0 }).select({"password" : 0,"_id": 0}); //.select( "-passwords" ); gotta add .populate("savedStages") later
             res.json(user);
         } catch (e) {
             res.json({ error: e.message });
@@ -83,6 +93,7 @@ module.exports = {
             res.json({ error: e.message });
         }
     },
+   
     deleteUser: async (req, res) => {
         try {
             const id = req.params.id,

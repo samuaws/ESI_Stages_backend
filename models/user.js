@@ -21,8 +21,8 @@ const mongoose = require("mongoose"),
             type: String,
         },
         matricule: {
-            required: true,
-            type: Number,
+           
+            type: String,
         },
         is_Admin: {
             type: Boolean,

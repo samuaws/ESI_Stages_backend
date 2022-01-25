@@ -6,6 +6,11 @@ name : {
         type: String,
         unique: true,
         },
+type :{ 
+    type: String,
+    enum : ['ouvrier','technique',"PFE"],
+    
+},
 etudiants : [
     {
         type: mongoose.Types.ObjectId,

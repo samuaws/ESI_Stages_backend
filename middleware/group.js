@@ -1,12 +1,30 @@
 const Group = require("../models/group");
+const User = require("../models/user");
     module.exports = {
         createGroup : async (req, res) => {
-            const {etudiants} = req.body;
+            const {name,type,m1,m2,m3,m4} = req.body;
             try {
                 
-                let grp = await Group.create({etudiants});
-                grp.save();
-                res.status(201).json(Grp);
+                let grp = await Group.create({name,type});
+                if(m1){
+                    const e1 = await User.findOne({matricule : m1});
+                    grp.etudiants.push(e1);
+                }
+                if(m2){
+                    const e2 = await User.findOne({matricule : m2});
+                    grp.etudiants.push(e2);
+                }
+                if(m3){
+                    const e3 = await User.findOne({matricule : m3});
+                    grp.etudiants.push(e3);
+                }
+                
+                if(m4){
+                    const e4 = await User.findOne({matricule : m4});
+                    grp.etudiants.push(e4);
+                }
+                grp.save()
+                res.status(201).json(grp);
             } catch (e) {
                 res.json({ error: e.message });
             }
@@ -36,12 +54,15 @@ const Group = require("../models/group");
                 res.json({ error: e.message });
             }
         },
+    
         updateGroup : async (req, res) => {
-            const {etudiants} = req.body,
+            const {name,type,etudiants} = req.body,
                 id = req.params.id;
             try {
                 const grp = await Group.findById(id);
                grp.etudiants = etudiants;
+               grp.name =  name ? name : grp.name;
+               grp.type = type ? type : grp.type;
                grp.save();
                 res.status(201).send(grp);
             } catch (e) {

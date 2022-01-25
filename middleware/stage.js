@@ -3,6 +3,7 @@ const Promoteur = require("../models/promoteur");
 const Encadreur = require("../models/encadreur");
 const Group = require("../models/group");
 const Entreprise = require("../models/entreprise");
+const user = require("../models/user");
 module.exports = {
 createStage : async (req, res) => {
     console.log("yakh rana ndirou  reaq hna");
@@ -77,6 +78,20 @@ updateStage: async (req, res) => {
         st.entreprise = ent ? ent : st.entreprise;
         await st.save();
         res.status(201).send(st);
+    } catch (e) {
+        res.json({ error: e.message });
+    }
+},
+addGroup : async (req, res) => {
+   id = req.params.id;
+   const {grp_id} = req.body;
+   try {
+       let stage = await Stage.findById(id);
+       let  grp = await Group.findById(grp_id);
+       console.log(grp);
+        stage.group = grp;
+        stage.save()
+        res.json(user.group);
     } catch (e) {
         res.json({ error: e.message });
     }
