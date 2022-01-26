@@ -9,11 +9,12 @@ encadreurSchema = new mongoose.Schema({
         required: true,
         type: String,
     },
-    adrs: String ,
+    email: String ,
     tlf: String,
     entreprise: {       
         type: mongoose.Types.ObjectId, 
-                  ref: "entreprise" ,}
+                  ref: "Entreprise" ,
+                  }
     },
   )
   module.exports = mongoose.model("Encadreur", encadreurSchema);

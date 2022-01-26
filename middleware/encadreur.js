@@ -3,14 +3,14 @@ const Entreprise = require("../models/entreprise");
 module.exports = {
 
     createEncadreur : async (req, res) => {
-        const {first_Name ,last_Name,adrs ,tlf,entreprise} = req.body;
+        const {first_Name ,last_Name,email ,tlf,entreprise} = req.body;
         try {
             let ent = await Entreprise.findOne({name : new RegExp(entreprise,"i")});
            if(ent == null)
            {
                throw Error("entreprise does not exist");
            }
-            let encadreur = await Encadreur.create({first_Name ,last_Name,adrs ,tlf,entreprise : ent});
+            let encadreur = await Encadreur.create({first_Name ,last_Name,email ,tlf,entreprise : ent});
             ent.encadreurs.push(encadreur);
             encadreur.save();
             ent.save();
@@ -24,7 +24,7 @@ module.exports = {
     showEncadreur : async (req,res) => {
         id = req.params.id ;
         try{
-            const en =await Encadreur.findById(id);
+            const en =await Encadreur.findById(id)
             res.status(201).json(en);
         }
         catch(e)
@@ -35,7 +35,7 @@ module.exports = {
 
     showListEncadreur: async (req,res) => {
         try{
-            const en =await Encadreur.find();
+            const en =await Encadreur.find().populate("entreprise");
             res.status(201).json(en);
         }
         catch(e)
@@ -44,7 +44,7 @@ module.exports = {
         }
     },
     updateEncadreur: async (req, res) => {
-        const { first_Name, last_Name, tlf , entreprise } = req.body,
+        const { first_Name, last_Name,email, tlf , entreprise } = req.body,
         ent =await Entreprise.findOne({name : new RegExp(entreprise,"i")});
             id = req.params.id;
         try {
@@ -52,6 +52,7 @@ module.exports = {
             en.first_Name = first_Name ? first_Name : en.first_Name;
             en.last_Name = last_Name ? last_Name : en.last_Name;
             en.tlf = tlf ? tlf : en.tlf;
+            en.email = email ? email : en.email;
             en.entreprise = ent ? ent : en.entreprise;
             await en.save();
             res.status(201).send(en);
