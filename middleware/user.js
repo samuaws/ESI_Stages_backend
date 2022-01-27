@@ -45,16 +45,6 @@ module.exports = {
             res.json({ error: e.message });
         }
     },
-    showEtudiant : async (req, res) => {
-        try {
-            let u = await User.find({is_Admin : false});
-            res.status(201).json(u)
-        }
-        catch(e)
-        {
-            res.json({ error: e.message });
-        }
-        },
     showUserFromMaricule : async (req, res) => {
         const { mat } = req.body;
         console.log(req.body);

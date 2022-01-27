@@ -12,6 +12,12 @@ adresse: {
 ville: {
      type: String,
         },
+encadreurs :[
+    {
+        type: mongoose.Types.ObjectId,
+            ref: "encadreur",    
+    }
+]
 
     
 })
