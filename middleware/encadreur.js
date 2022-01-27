@@ -5,15 +5,12 @@ module.exports = {
     createEncadreur : async (req, res) => {
         const {first_Name ,last_Name,email ,tlf,entreprise} = req.body;
         try {
-            let ent = await Entreprise.findOne({name : new RegExp(entreprise,"i")});
            if(ent == null)
            {
                throw Error("entreprise does not exist");
            }
-            let encadreur = await Encadreur.create({first_Name ,last_Name,email ,tlf,entreprise : ent});
-            ent.encadreurs.push(encadreur);
+            let encadreur = await Encadreur.create({first_Name ,last_Name,email ,tlf,entreprise : ent});      
             encadreur.save();
-            ent.save();
             res.status(201).json(encadreur);
         } catch (e) {
             
@@ -64,6 +61,7 @@ module.exports = {
         try {
             const id = req.params.id,
                 en = await Encadreur.findById(id);
+            ent.save();
             await en.remove();
             res.json({ deleted: "successfully" });
         } catch (e) {

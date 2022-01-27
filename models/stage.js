@@ -30,7 +30,13 @@ stageSchema = new mongoose.Schema({
     Available :{
         type : Boolean,
         default : true,
-    }
+    },
+   
+    Valide :{
+        type : Boolean,
+        default : false,
+    },
+   
    
 });
 module.exports = mongoose.model("Stage", stageSchema);
