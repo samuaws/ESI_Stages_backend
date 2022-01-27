@@ -4,10 +4,9 @@ const Encadreur = require("../models/encadreur");
 module.exports = {
 
     createEntreprise : async (req, res) => {
-        const {name ,adresse,ville,encadreur} = req.body;
+        const {name ,adresse,ville} = req.body;
         try {
-            empty = [];
-            let entreprise = await Entreprise.create({name ,adresse,ville,empty});
+            let entreprise = await Entreprise.create({name ,adresse,ville});
             entreprise.save();
             res.status(201).json(entreprise);
         } catch (e) {
@@ -38,16 +37,13 @@ module.exports = {
         }
     },
     updateEntreprise: async (req, res) => {
-        const {name ,adresse,ville,encadreur} = req.body,
-            id = req.params.id,
-            enc = await Encadreur.findOne({name : new RegExp(encadreur,"i")});
+        const {name ,adresse,ville} = req.body,
+            id = req.params.id;
            
         try {
-            const ent = await Entreprise.findById(id);
             ent.name = name ? name : ent.name;
             ent.adresse = adresse ? adresse : ent.adresse;
             ent.ville = ville ? ville : ent.ville;
-            ent.encadreur = enc ? enc : enc.encadreur;
             await ent.save();
             res.status(201).send(ent);
         } catch (e) {
