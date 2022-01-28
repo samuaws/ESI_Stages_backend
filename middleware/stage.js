@@ -152,7 +152,7 @@ updateStage: async (req, res) => {
         st.entreprise = ent ? ent : st.entreprise;
         st.Available  = (Available != undefined) ? Available  : st.Available ;
         st.Valide  = (Valide != undefined) ? Valide  : st.Valide ;
-        console.log(Available);
+        
         await st.save();
         res.status(201).send(st);
     } catch (e) {
