@@ -14,7 +14,7 @@ type :{
 etudiants : [
     {
         type: mongoose.Types.ObjectId,
-            ref: "user",          
+            ref: "User",          
     }
 ]
 

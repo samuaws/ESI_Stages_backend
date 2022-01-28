@@ -25,7 +25,7 @@ showStage : async (req,res) => {
     id = req.params.id ;
     console.log(id);
     try{
-        const st = await Stage.findById(id).populate("entreprise").populate("promoteur").populate("Encadreur");
+        const st = await Stage.findById(id).populate("entreprise").populate("promoteur").populate("Encadreur").populate("group");
         res.status(201).json(st);
     }
     catch(e)
@@ -120,12 +120,23 @@ catch(e)
 
 updateStage: async (req, res) => {
     const {name,Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur,entreprise,Available,Valide} = req.body,
-    id = req.params.id,
-        prom = await Promoteur.findOne({last_Name : new RegExp(promoteur,"i")}),   
-        enc = await Encadreur.findOne({last_Name : new RegExp(encadreur,"i")}),
-        grp = await Group.findOne({name : new RegExp(group,"i")}),
-        ent = await Entreprise.findOne({name : new RegExp(entreprise,"i")});
-        console.log(Available);
+    id = req.params.id;
+   
+
+       const prom = await Promoteur.findOne({last_Name : new RegExp(promoteur,"i")})  
+    
+    
+        
+      const  enc = await Encadreur.findOne({last_Name : new RegExp(encadreur,"i")});
+    
+    
+
+        const grp = await Group.findOne({name : new RegExp(group,"i")});
+    
+
+
+        const ent = await Entreprise.findOne({name : new RegExp(entreprise,"i")});
+    
         
     try {
         const st = await Stage.findById(id);
@@ -141,6 +152,7 @@ updateStage: async (req, res) => {
         st.entreprise = ent ? ent : st.entreprise;
         st.Available  = (Available != undefined) ? Available  : st.Available ;
         st.Valide  = (Valide != undefined) ? Valide  : st.Valide ;
+        console.log(Available);
         await st.save();
         res.status(201).send(st);
     } catch (e) {
@@ -164,12 +176,17 @@ addGroup : async (req, res) => {
    id = req.params.id;
    const {grp_id} = req.body;
    try {
+       console.log("hhhhhhhhhhhhhhhhhhhhhhh");
+       console.log(grp_id);
        let stage = await Stage.findById(id);
        let  grp = await Group.findById(grp_id);
+       stage.Available=false;
        console.log(grp);
-        stage.group = grp;
+       stage.group = grp;
+       stage.group.save()
+       console.log(stage.group);
         stage.save()
-        res.json(user.group);
+        res.json(stage);
     } catch (e) {
         res.json({ error: e.message });
     }

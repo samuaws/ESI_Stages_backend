@@ -1,9 +1,9 @@
+const { findOneAndReplace } = require("../models/group");
 const Group = require("../models/group");
 const User = require("../models/user");
     module.exports = {
         createGroup : async (req, res) => {
 
-            console.log("ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
             const {name,type,m1,m2,m3,m4} = req.body;
             try {
                 
@@ -25,8 +25,9 @@ const User = require("../models/user");
                     const e4 = await User.findOne({matricule : m4});
                     grp.etudiants.push(e4);
                 }
-                grp.save()
-                res.status(201).json(grp);
+               
+                grp.save();
+              res.status(201).json(grp);
             } catch (e) {
                 res.json({ error: e.message });
             }
@@ -62,7 +63,7 @@ const User = require("../models/user");
                 id = req.params.id;
             try {
                 const grp = await Group.findById(id);
-               grp.etudiants = etudiants;
+               grp.etudiants = etudiants ? etudiants : grp.etudiants ;
                grp.name =  name ? name : grp.name;
                grp.type = type ? type : grp.type;
                grp.save();
