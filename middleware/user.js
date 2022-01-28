@@ -74,12 +74,11 @@ module.exports = {
         }
     },
     updateUser: async (req, res) => {
-        const { email,first_Name, last_Name,matricule, password } = req.body,
+        const { username,email,first_Name, last_Name,matricule, password } = req.body,
             id = req.params.id;
         try {
-            if (id.toString() !== req.user._id.toString())
-                throw new Error("You aren't allowed to edit other users profiles.");
             const u = await User.findById(id);
+            u.username = username ? username : u.username;
             u.email = email ? email : u.email;
             u.first_Name = first_Name ? first_Name : u.first_Name;
             u.last_Name = last_Name ? last_Name : u.last_Name;
@@ -107,12 +106,8 @@ module.exports = {
     deleteUser: async (req, res) => {
         try {
             const id = req.params.id,
-                u = await User.findById(id);
-                console.log(u);
-            if (u._id.toString() !== req.user._id.toString()){
-                
-                throw Error("You aren't allowed to delete other people accounts.");
-            }
+            u = await User.findById(id);
+            console.log(u);
             await u.remove();
             res.json({ deleted: "successfully" });
         } catch (e) {

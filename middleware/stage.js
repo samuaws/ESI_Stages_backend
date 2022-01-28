@@ -65,8 +65,28 @@ catch(e)
     res.json({ error: e.message });
 }
 },
+showPFEStage : async (req, res) => {
+try {
+    let st = await Stage.find({Type : "PFE" }).populate("entreprise");
+    res.status(201).json(st)
+}
+catch(e)
+{
+    res.json({ error: e.message });
+}
+},
+showAnneeStage : async (req, res) => {
+try {
+    let st = await Stage.distinct('annee',{Type : "PFE" });
+    res.status(201).json(st)
+}
+catch(e)
+{
+    res.json({ error: e.message });
+}
+},
+
 updateStage: async (req, res) => {
-    console.log("vhjabchbhjsebdhfjsrhjvhsjevhsr vhjsrvhsrbvjhsrbvhsbrhvsjhhvhsvsrhjsvhfsfejehjsebsrhvsrnbnbvjc h nc cbjkzdzbkjsd s s  je.");
     const {name,Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur,entreprise,Available,Valide} = req.body,
     id = req.params.id,
         prom = await Promoteur.findOne({last_Name : new RegExp(promoteur,"i")}),   
