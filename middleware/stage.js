@@ -75,10 +75,42 @@ catch(e)
     res.json({ error: e.message });
 }
 },
+showPFEVStage : async (req, res) => {
+try {
+    let st = await Stage.find({ Valide :true}).populate("group").populate("entreprise");
+    res.status(201).json(st)
+}
+catch(e)
+{
+    res.json({ error: e.message });
+}
+},
+showPFEIStage : async (req, res) => {
+try {
+    let st = await Stage.find({ Valide :true , Type : "PFE" }).populate("entreprise");
+    res.status(201).json(st)
+}
+catch(e)
+{
+    res.json({ error: e.message });
+}
+},
 showAnneeStage : async (req, res) => {
 try {
     let st = await Stage.distinct('annee',{Type : "PFE" });
     res.status(201).json(st)
+}
+catch(e)
+{
+    res.json({ error: e.message });
+}
+},
+showAnneeEntreprise : async (req, res) => {
+try {
+    const id = req.params.id;
+    let nbe = await Stage.distinct('entreprise',{annee : id , Valide : true });
+    nb = nbe.length;
+    res.status(201).json({ "nbe" : nb})
 }
 catch(e)
 {

@@ -2,6 +2,8 @@ const Group = require("../models/group");
 const User = require("../models/user");
     module.exports = {
         createGroup : async (req, res) => {
+
+            console.log("ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
             const {name,type,m1,m2,m3,m4} = req.body;
             try {
                 
