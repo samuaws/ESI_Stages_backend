@@ -38,12 +38,14 @@ module.exports = {
     },
     updateEntreprise: async (req, res) => {
         const {name ,adresse,ville} = req.body,
-            id = req.params.id;
+        id = req.params.id;
            
         try {
+            const ent = await Entreprise.findById(id);
             ent.name = name ? name : ent.name;
             ent.adresse = adresse ? adresse : ent.adresse;
             ent.ville = ville ? ville : ent.ville;
+            console.log(ent);
             await ent.save();
             res.status(201).send(ent);
         } catch (e) {
