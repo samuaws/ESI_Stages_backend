@@ -25,6 +25,7 @@ const User = require("../models/user");
                     const e4 = await User.findOne({matricule : m4});
                     grp.etudiants.push(e4);
                 }
+                console.log(grp);
                 grp.save();
               res.status(201).json(grp);
             } catch (e) {

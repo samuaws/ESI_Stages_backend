@@ -7,13 +7,13 @@ const user = require("../models/user");
 module.exports = {
 createStage : async (req, res) => {
     console.log("yakh rana ndirou  reaq hna");
-    const {name,Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur,entreprise} = req.body;
+    const {name,Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur,entreprise,drive} = req.body;
     try {
        const prom = await Promoteur.findOne({last_Name : new RegExp(promoteur,"i")}),
             enc = await Encadreur.findOne({last_Name : new RegExp(encadreur,"i")}),
             grp = await Group.findOne({name : new RegExp(group,"i")});
             ent = await Entreprise.findOne({name : new RegExp(entreprise,"i")});
-        let stage = await Stage.create({name,Type,description,dateDeb ,dateFin,annee,Encadreur:enc,group:grp,promoteur:prom,entreprise:ent});
+        let stage = await Stage.create({name,Type,description,dateDeb ,dateFin,annee,Encadreur:enc,group:grp,promoteur:prom,entreprise:ent,drive});
         stage.save(); 
         res.status(201).json(stage);
     } catch (e) {
@@ -119,7 +119,7 @@ catch(e)
 },
 
 updateStage: async (req, res) => {
-    const {name,Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur,entreprise,Available,Valide} = req.body,
+    const {name,Type,description,dateDeb ,dateFin,encadreur,annee,group,promoteur,Valide,entreprise,Available,drive} = req.body,
     id = req.params.id;
    
 
@@ -152,6 +152,7 @@ updateStage: async (req, res) => {
         st.entreprise = ent ? ent : st.entreprise;
         st.Available  = (Available != undefined) ? Available  : st.Available ;
         st.Valide  = (Valide != undefined) ? Valide  : st.Valide ;
+        st.drive = drive ? drive : st.drive;
         
         await st.save();
         res.status(201).send(st);
@@ -166,6 +167,7 @@ updateStageValide: async (req, res) => {
         const st = await Stage.findById(id);
         st.group = undefined ;
         st.Available  = true ;
+        st.drive=null;
         st.save();
         res.status(201).send(st);
     } catch (e) {
@@ -174,7 +176,7 @@ updateStageValide: async (req, res) => {
 },
 addGroup : async (req, res) => {
    id = req.params.id;
-   const {grp_id} = req.body;
+   const {grp_id,drive} = req.body;
    try {
        console.log("hhhhhhhhhhhhhhhhhhhhhhh");
        console.log(grp_id);
@@ -183,6 +185,7 @@ addGroup : async (req, res) => {
        stage.Available=false;
        console.log(grp);
        stage.group = grp;
+       stage.drive = drive;
        stage.group.save()
        console.log(stage.group);
         stage.save()

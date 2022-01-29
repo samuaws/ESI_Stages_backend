@@ -36,6 +36,7 @@ stageSchema = new mongoose.Schema({
         type : Boolean,
         default : false,
     },
+    drive : String
    
    
 });
