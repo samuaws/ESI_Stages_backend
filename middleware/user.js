@@ -94,7 +94,7 @@ module.exports = {
         const id = req.params.id;
         try {
             const u = await User.findById(id);
-            u.is_Admin = true;
+            u.is_Admin = !u.is_Admin;
             await u.save();
             // add published games
             res.status(201).send(u);
